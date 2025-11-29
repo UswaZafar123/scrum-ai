@@ -17,13 +17,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "userstorymanager", 
+    "rest_framework",
+    "corsheaders",
     # third-party
     # "rest_framework",  # add later when you start APIs
     # local apps
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",            # for handling CORS
     "django.contrib.sessions.middleware.SessionMiddleware",      # required
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -31,7 +42,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",      # required
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True    # for development only, adjust for production
+CORS_ALLOW_METHODS=[
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    
+]
 ROOT_URLCONF = "scrumai.urls"
 
 TEMPLATES = [
@@ -63,5 +83,7 @@ DATABASES = {
         "OPTIONS": {"connect_timeout": 5},
     }
 }
+MEDIA_URL = "/media/"
+MEDIA_ROOT =os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "static/"
